@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  state = {
+    todos: []
+  }
+
+  componentWillMount() {
+    fetch("http://localhost:3000/graphql", {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `{ todos { title } }`
+      })
+    })
+      .then(res => res.json())
+      .then(({ data }) => {
+        this.setState(data)
+      })
+  }
+
   render() {
+    const { todos } = this.state
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ul>
+          {todos.map(todo => <li key={todo.title}><strong>{todo.title}</strong><div>{todo.isCompleted}</div></li>)}
+        </ul>
       </div>
     );
   }
