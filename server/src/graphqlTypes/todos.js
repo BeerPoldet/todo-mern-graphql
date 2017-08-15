@@ -1,20 +1,31 @@
-import {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLList,
-  GraphQLBoolean
-} from 'graphql'
+import * as graphql from 'graphql'
 
 export const createGraphQLTodosType = (todoRepo) => ({
-  type: new GraphQLList(makeGraphQLTodoType()),
+  type: new graphql.GraphQLList(TodoType),
   resolve: createTodosResolve(todoRepo)
 })
 
-const makeGraphQLTodoType = () => new GraphQLObjectType({
+export const createTodoMutations = (todoRepo) => ({
+  createTodo: {
+    type: TodoType,
+    args: { todo: { type: TodoInputType } },
+    resolve: (value, { todo }) => todoRepo.save(todo)
+  }
+})
+
+export const TodoType = new graphql.GraphQLObjectType({
   name: "Todo",
   fields: {
-    title: { type: GraphQLString, resolve: ({ title }) => title },
-    isCompleted: { type: GraphQLBoolean, resolve: ({ isCompleted }) => isCompleted }
+    title: { type: graphql.GraphQLString, resolve: ({ title }) => title },
+    isCompleted: { type: graphql.GraphQLBoolean, resolve: ({ isCompleted }) => isCompleted }
+  }
+})
+
+export const TodoInputType = new graphql.GraphQLInputObjectType({
+  name: "TodoInput",
+  fields: {
+    title: { type: graphql.GraphQLString },
+    isCompleted: { type: graphql.GraphQLBoolean }
   }
 })
 

@@ -28,5 +28,11 @@ describe('server could configs', () => {
     expect(fields).toBeDefined()
     expect(fields.todos).toBeDefined()
   })
+
+  it('create mutation fields', () => {
+    const fields = graphqlApp.createMutationFields(repositories)
+
+    expect(fields.createTodo).toBeDefined()
+  })
 })
 

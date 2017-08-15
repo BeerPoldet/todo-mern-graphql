@@ -1,7 +1,7 @@
 import { createTodoRepo } from '../todoRepo'
 
 const todos = [{ title: "Go shopping", isCompleted: false }]
-const todoModel = { find: () => todos }
+const todoModel = { find: () => todos, save: (todo) => ({ ...todo, id: 4 }) }
 
 describe("todoRepo", () => {
   it('create todo repo', () => {
@@ -16,5 +16,13 @@ describe("todoRepo", () => {
     const todos = todoRepo.find()
 
     expect(todos).toEqual(todos)
+  })
+
+  it("save todos", () => {
+    const todoRepo = createTodoRepo(todoModel)
+    
+    const todo = todoRepo.save({ title: 'Wash the dishes' })
+
+    expect(todo).toMatchObject({ title: "Wash the dishes" })
   })
 })
