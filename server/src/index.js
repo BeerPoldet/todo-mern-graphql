@@ -1,25 +1,20 @@
 import express from 'express'
 import graphHTTP from 'express-graphql'
-import { createGraphHTTPMiddleware } from './graphqlApp'
+import { schema, createRoot } from './graphql'
 import { createRepositories } from './repositories'
+import * as memDB from './mem-db'
 
 const app = express()
 
-const todos = [
-  { title: "Go shopping", isCompleted: false },
-  { title: "Wash the car", isCompleted: true }
-]
 const repositories = createRepositories({
-  todoModel: {
-    find: () => todos,
-    save: (todo) => {
-      const newTodo = { ...todo, id: 4, isCompleted: todo.isCompleted || false }
-      todos.push(newTodo)
-      return newTodo
-    }
-  }
+  todoModel: new memDB.TodoModel()
 })
-app.use("/graphql", createGraphHTTPMiddleware(graphHTTP, repositories))
+
+app.use("/graphql", graphHTTP({
+  schema: schema,
+  rootValue: createRoot(repositories),
+  graphiql: true
+}))
 
 const port = 3001
 app.listen(port, () => {
