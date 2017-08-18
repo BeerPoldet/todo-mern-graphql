@@ -1,4 +1,5 @@
 {
   "workbench.colorTheme": "One Dark Pro",
-  "explorer.autoReveal": true
+  "explorer.autoReveal": true,
+  "editor.fontFamily": "'Ubuntu Mono', 'Courier New', monospace"
 }

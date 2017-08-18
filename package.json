@@ -1,0 +1,16 @@
+{
+  "name": "todo-graphql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/BeerPoldet/todo-mern-graphql.git",
+  "author": "BeerPoldet <beer@pupasoft.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently \"yarn start-server\" \"cd ..\" \"yarn start-client\"",
+    "start-server": "cd server & yarn start",
+    "start-client": "cd client & yarn start"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0"
+  }
+}
