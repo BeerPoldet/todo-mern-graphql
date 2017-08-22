@@ -1,12 +1,17 @@
 import React from 'react'
 import Todo from './Todo'
 import styled from 'styled-components'
+import { createFetchTodos } from ''
+
+const fetchTodos  = createFetchTodos(fetch)
 
 const TodoList = ({ todos, isCompletedDidChange, className }) => (
   <div className={className}>
     {todos.map(todo => <Todo key={todo.title} todo={todo} isCompletedDidChange={isCompletedDidChange} />)}
   </div>
 )
+
+
 
 export default styled(TodoList)`
   background-color: #ffffff;
