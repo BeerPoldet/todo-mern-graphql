@@ -1,4 +1,16 @@
-export const createTodoRepo = (todoModel) => ({
-  find: () => todoModel.find(),
-  save: (todo) => todoModel.save(todo)
-})
+export default class TodoRepo {
+  constructor(todoModel) {
+    this.todoModel = todoModel
+  }
+
+  find() {
+    return this.todoModel.find()
+  }
+  insert(todo) {
+    return this.todoModel.save(todo)
+  }
+
+  update(partialTodo) {
+    return this.todoModel.update(partialTodo)
+  }
+}

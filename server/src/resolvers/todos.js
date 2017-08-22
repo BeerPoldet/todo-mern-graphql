@@ -1,3 +1,12 @@
-export const queryTodosResolveCreator = (todoRepo) => (args) => todoRepo.find()
+export default class TodoResolver {
 
-export const createTodoResolveCreator = (todoRepo) => ({ title, isCompleted }) => todoRepo.save({ title, isCompleted })
+  constructor(todoRepo) {
+    this.todoRepo = todoRepo;
+  }
+
+  query = (args) => this.todoRepo.find()
+  
+  create = ({ title, isCompleted }) => this.todoRepo.insert({ title, isCompleted })
+  
+  update = ({ title, isCompleted }) => this.todoRepo.update({ title, isCompleted })
+}

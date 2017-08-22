@@ -1,28 +1,84 @@
-import { createTodoRepo } from '../todoRepo'
+import TodoRepo from '../todoRepo'
+import { TodoModel } from '../../mem-db'
 
-const todos = [{ title: "Go shopping", isCompleted: false }]
-const todoModel = { find: () => todos, save: (todo) => ({ ...todo, id: 4 }) }
-
-describe("todoRepo", () => {
-  it('create todo repo', () => {
-    const todoRepo = createTodoRepo(todoModel)
+describe("Initialize", () => {
+  it('init todoRepo takes todoModel', () => {
+    const todoModel = new TodoModel([])
+    const todoRepo = new TodoRepo(todoModel)
 
     expect(todoRepo).toBeDefined()
   })
+})
 
-  it("find todos", () => {
-    const todoRepo = createTodoRepo(todoModel)
+describe("Find Todos", () => {
+  it("should find one todo", () => {
+    const initTodos = [{ title: "Go shopping", isCompleted: true }]
+    const todoModel = new TodoModel(initTodos)
+    const todoRepo = new TodoRepo(todoModel)
 
     const todos = todoRepo.find()
 
-    expect(todos).toEqual(todos)
+    expect(todos).toEqual(initTodos)
   })
 
-  it("save todos", () => {
-    const todoRepo = createTodoRepo(todoModel)
-    
-    const todo = todoRepo.save({ title: 'Wash the dishes' })
+  it("should find many todos", () => {
+    const initTodos = [
+      { id: 1, title: "Go shopping", isCompleted: true },
+      { id: 2, title: "Wash the car", isCompleted: false }
+    ]
+    const todoModel = new TodoModel(initTodos)
+    const todoRepo = new TodoRepo(todoModel)
 
-    expect(todo).toMatchObject({ title: "Wash the dishes" })
+    const todos = todoRepo.find()
+
+    expect(todos).toEqual(initTodos)
+  })
+})
+
+describe("Insert Todo", () => {
+  it("should insert todo in db", () => {
+    const todoModel = new TodoModel([])
+    const todoRepo = new TodoRepo(todoModel)
+
+    const todo1 = todoRepo.insert({ title: "Go farming" })
+    const todo2 = todoRepo.insert({ title: "Drink coffee" })
+    const todos = todoRepo.find()
+
+    expect(todo1).toMatchObject({ id: 1, title: "Go farming", isCompleted: false })
+    expect(todo2).toMatchObject({ id: 2, title: "Drink coffee", isCompleted: false })
+    expect(todos).toEqual([
+      { id: 1, title: "Go farming", isCompleted: false },
+      { id: 2, title: "Drink coffee", isCompleted: false }
+    ])    
+  })
+})
+
+describe("todoRepo update()", () => {
+  const todoModel = new TodoModel([])
+  const todoRepo = new TodoRepo(todoModel)
+  let newTodo
+
+  beforeAll(() => {
+    newTodo = todoRepo.insert({ title: "Walk the dog", isCompleted: true })
+  })
+
+  it("update return todo", () => {
+    const todo = todoRepo.update({ id: newTodo.id, isCompleted: false, title: "Walk the cat" })
+
+    expect(todo.isCompleted).toBeFalsy()
+    expect(todo.title).toEqual("Walk the cat")
+    expect(todo.id).toEqual(newTodo.id)
+    expect(todo.id).toBeDefined()
+  })
+
+  it("update affect todos database", () => {
+    const todos = todoRepo.find()
+
+    const updatedTodo = todos.find(todo => todo.id === newTodo.id)
+
+    expect(updatedTodo.isCompleted).toBeFalsy()
+    expect(updatedTodo.title).toEqual("Walk the cat")
+    expect(updatedTodo.id).toEqual(newTodo.id)
+    expect(updatedTodo.id).toBeDefined()
   })
 })

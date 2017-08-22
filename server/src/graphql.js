@@ -1,5 +1,5 @@
 import { buildSchema } from 'graphql'
-import { queryTodosResolveCreator, createTodoResolveCreator } from './resolvers/todos'
+import TodoResovler from './resolvers/todos'
 
 export const schema = buildSchema(`
   type Query {
@@ -8,6 +8,8 @@ export const schema = buildSchema(`
 
   type Mutation {
     createTodo(title: String!, isCompleted: Boolean): Todo
+
+    updateTodo(id: Int, title: String, isCompleted: Boolean): Todo
   }
 
   type Todo {
@@ -16,7 +18,12 @@ export const schema = buildSchema(`
   }
 `)
 
-export const createRoot = (repositories) => ({
-  todos: queryTodosResolveCreator(repositories.todoRepo),
-  createTodo: createTodoResolveCreator(repositories.todoRepo)
-})
+export const createRoot = (repositories) => {
+  const todoResovler = new TodoResovler(repositories.todoRepo)
+
+  return {
+    todos: todoResovler.query,
+    createTodo: todoResovler.create,
+    updateTodoIsCompleted: todoResovler.update
+  }
+}

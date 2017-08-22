@@ -1,5 +1,5 @@
-import { createTodoRepo } from './todoRepo'
+import TodoRepo from './todoRepo'
 
 export const createRepositories = ({ todoModel }) => ({
-  todoRepo: createTodoRepo(todoModel)
+  todoRepo: new TodoRepo(todoModel)
 })
