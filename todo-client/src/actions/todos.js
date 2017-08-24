@@ -1,13 +1,13 @@
-export const FETCH_TODO_PENDING = 'FETCH_TODO_PENDING'
-export const FETCH_TODO_SUCCESS = 'FETCH_TODO_SUCCESS'
+export const types = {
+  FETCH_TODO_PENDING: 'FETCH_TODO_PENDING',
+  FETCH_TODO_SUCCESS: 'FETCH_TODO_SUCCESS'
+}
 
 export const createFetchTodos = fetch => () => async (dispatch) => {
-  dispatch({ type: FETCH_TODO_PENDING })
-  const todos = await apiFetch(fetch).fetchTodos()
-
+  dispatch({ type: types.FETCH_TODO_PENDING })
   dispatch({
-    type: FETCH_TODO_SUCCESS,
-    data: todos
+    type: types.FETCH_TODO_SUCCESS,
+    data: await apiFetch(fetch).fetchTodos()
   })
 }
 

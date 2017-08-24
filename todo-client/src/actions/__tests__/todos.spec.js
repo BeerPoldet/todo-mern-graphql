@@ -1,10 +1,10 @@
 import fetchMock from 'fetch-mock'
 import {
   createFetchTodos,
-  FETCH_TODO_PENDING,
-  FETCH_TODO_SUCCESS
+  types,
 } from '../todos'
 import sinon from 'sinon'
+import { createMockStore } from '../../mocks/store'
 
 describe("Fetch Todos", () => {
   it("should success with data contains todos", async () => {
@@ -19,18 +19,15 @@ describe("Fetch Todos", () => {
   })
 
   const testFetchTodosSuccess = async (todos) => {
-    const dispatch = sinon.spy()
-    const fetch = fetchMock.sandbox().mock('*', { todos })
-    const fetchTodos = createFetchTodos(fetch)
-    const thunk = fetchTodos()
+    const fetchTodos = createFetchTodos(fetchMock.sandbox().mock('*', { todos }))
+    const store = createMockStore()
 
-    await thunk(dispatch)
+    await store.dispatch(fetchTodos())
+    const actions = store.getActions()
 
-    expect(dispatch.getCall(0).args[0]).toMatchObject({
-      type: FETCH_TODO_PENDING
-    })
-    expect(dispatch.getCall(1).args[0]).toMatchObject({
-      type: FETCH_TODO_SUCCESS,
+    expect(actions[0]).toMatchObject({ type: types.FETCH_TODO_PENDING })
+    expect(actions[1]).toMatchObject({ 
+      type: types.FETCH_TODO_SUCCESS,
       data: todos
     })
   }
