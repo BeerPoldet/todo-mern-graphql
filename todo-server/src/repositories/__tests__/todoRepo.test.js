@@ -44,11 +44,11 @@ describe("Insert Todo", () => {
     const todo2 = todoRepo.insert({ title: "Drink coffee" })
     const todos = todoRepo.find()
 
-    expect(todo1).toMatchObject({ id: 1, title: "Go farming", isCompleted: false })
-    expect(todo2).toMatchObject({ id: 2, title: "Drink coffee", isCompleted: false })
+    expect(todo1).toMatchObject({ id: '1', title: "Go farming", isCompleted: false })
+    expect(todo2).toMatchObject({ id: '2', title: "Drink coffee", isCompleted: false })
     expect(todos).toEqual([
-      { id: 1, title: "Go farming", isCompleted: false },
-      { id: 2, title: "Drink coffee", isCompleted: false }
+      { id: '1', title: "Go farming", isCompleted: false },
+      { id: '2', title: "Drink coffee", isCompleted: false }
     ])    
   })
 })

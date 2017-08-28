@@ -3,6 +3,9 @@ export const createMockStore = (reducer, initState) => {
   let actions = []
   let states = []
 
+  if (initState)
+      states.push(initState)
+
   const getStates = () => states
 
   let dispatch = async (action) => {
@@ -11,6 +14,7 @@ export const createMockStore = (reducer, initState) => {
     if (reducer) {
       const nextState = reducer(state, action)
       states.push(nextState)
+      state = nextState
       return nextState
     }
 

@@ -8,5 +8,5 @@ export default class TodoResolver {
   
   create = ({ title, isCompleted }) => this.todoRepo.insert({ title, isCompleted })
   
-  update = ({ title, isCompleted }) => this.todoRepo.update({ title, isCompleted })
+  update = ({ id, title, isCompleted }) => this.todoRepo.update({ id, title, isCompleted })
 }

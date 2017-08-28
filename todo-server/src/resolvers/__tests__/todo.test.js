@@ -14,7 +14,7 @@ describe('queryTodosResolve()', () => {
     const todoRepoSpy = sinon.spy(todoRepo, "find")
     const todoResolver = new TodoResolver(todoRepo)
     const args = {};
-    
+
     todoResolver.query(args)
 
     expect(todoRepoSpy.getCall(0).args[0]).toEqual(undefined)
@@ -29,7 +29,7 @@ describe('createTodoResolve()', () => {
 
     todoResolver.create(args)
 
-    expect(todoRepoSpy.getCall(0).args[0]).toMatchObject({ title: "Do dishes", isCompleted: true })
+    expect(todoRepoSpy.getCall(0).args[0]).toMatchObject(args)
   })
 })
 
@@ -37,12 +37,22 @@ describe('updateTodoResolve()', () => {
   it('calls todoRepo.update()', () => {
     const todoRepoSpy = sinon.spy(todoRepo, "update")
     const todoResolver = new TodoResolver(todoRepo)
-    const args = { isCompleted: true }
+    const args = { id: 1, isCompleted: true }
+
+    todoResolver.update(args)
+
+    expect(todoRepoSpy.getCalls()[0].args[0]).toEqual(args)
+    todoRepoSpy.restore()
+  })
+  
+  it('calls todoRepo.update() with parital todo', () => {
+    const todoRepoSpy = sinon.spy(todoRepo, "update")
+    const todoResolver = new TodoResolver(todoRepo)
+    const args = { id: 1, isCompleted: true, title: undefined }
     
     todoResolver.update(args)
     
-    expect(todoRepoSpy.getCalls()[0].args[0]).toEqual({
-      isCompleted: true
-    })
+    expect(todoRepoSpy.getCalls()[0].args[0]).toEqual(args)
+    todoRepoSpy.restore()
   })
 })

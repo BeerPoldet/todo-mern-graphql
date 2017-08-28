@@ -4,10 +4,15 @@
   "private": true,
   "dependencies": {
     "antd": "^2.12.6",
+    "classnames": "^2.2.5",
     "cross-env": "^5.0.5",
     "node-less-chokidar": "^0.1.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-promise": "^0.5.3",
+    "redux-thunk": "^2.2.0",
     "styled-components": "^2.1.2",
     "typeface-roboto": "^0.0.35"
   },
@@ -17,7 +22,7 @@
     "sinon": "^3.2.1"
   },
   "scripts": {
-    "start": "cross-env NODE_PATH=src/ react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

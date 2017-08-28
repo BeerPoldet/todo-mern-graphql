@@ -9,10 +9,11 @@ export const schema = buildSchema(`
   type Mutation {
     createTodo(title: String!, isCompleted: Boolean): Todo
 
-    updateTodo(id: Int, title: String, isCompleted: Boolean): Todo
+    updateTodo(id: ID!, title: String, isCompleted: Boolean): Todo
   }
 
   type Todo {
+    id: ID!,
     title: String
     isCompleted: Boolean
   }
@@ -24,6 +25,6 @@ export const createRoot = (repositories) => {
   return {
     todos: todoResovler.query,
     createTodo: todoResovler.create,
-    updateTodoIsCompleted: todoResovler.update
+    updateTodo: todoResovler.update
   }
 }
