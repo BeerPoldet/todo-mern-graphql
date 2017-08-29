@@ -26,4 +26,13 @@ export class TodoModel {
     this.todos[index] = { ...this.todos[index], ...partialTodo }
     return this.todos[index]
   }
+
+  delete(id) {
+    const hasTodo = this.todos.some(t => t.id === id)
+    if (!hasTodo)
+      return false
+
+    this.todos = this.todos.filter(t => t.id !== id)
+    return true
+  }
 }

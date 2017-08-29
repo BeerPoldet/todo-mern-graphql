@@ -13,4 +13,8 @@ export default class TodoRepo {
   update(partialTodo) {
     return this.todoModel.update(partialTodo)
   }
+
+  delete(id) {
+    return this.todoModel.delete(id)
+  }
 }

@@ -11,7 +11,8 @@ export const types = {
   UPDATE_TODO_SUCCESS: 'UPDATE_TODO_SUCCESS',
 
   DELETE_TODO_PENDING: 'DELETE_TODO_PENDING',
-  DELETE_TODO_SUCCESS: 'DELETE_TODO_SUCCESS'
+  DELETE_TODO_SUCCESS: 'DELETE_TODO_SUCCESS',
+  DELETE_TODO_FAILURE: 'DELETE_TODO_FAILURE'
 }
 
 export const fetchTodosCreator = listTodo => () => async dispatch => {
@@ -39,9 +40,17 @@ export const updateTodoCreator = updateTodo => (id, partialTodo) => async dispat
   })
 }
 
-export const deleteTodoCreator = fetch => id => async dispatch => {
-  dispatch({ type: types.DELETE_TODO_PENDING }) 
-  dispatch({ type: types.DELETE_TODO_SUCCESS, id })
+export const deleteTodoCreator = deleteTodo => id => async dispatch => {
+  dispatch({ type: types.DELETE_TODO_PENDING })
+  const result = await deleteTodo(id)
+  if (result)
+    dispatch({ type: types.DELETE_TODO_SUCCESS, id })
+  else
+    dispatch({ type: types.DELETE_TODO_FAILURE, id })
 }
 
-export const fetchTodos = fetchTodosCreator(new TodoAPI(fetch).list)
+const todoAPI = new TodoAPI(fetch)
+export const fetchTodos = fetchTodosCreator(todoAPI.list)
+export const createTodo = createTodoCreator(todoAPI.create)
+export const updateTodo = updateTodoCreator(todoAPI.update)
+export const deleteTodo = deleteTodoCreator(todoAPI.delete)

@@ -8,9 +8,10 @@ export default class TodoTitleInput extends React.Component {
 
   inputSubmit = e => {
     if (e.which === 13) {
-      this.setState({ title: '' })
       this.props.onSave(e.target.value.trim())
-    }      
+      if (this.props.isNewTodo)
+        this.setState({ title: '' })
+    }
   }
 
   inputChange = e => {
@@ -19,7 +20,7 @@ export default class TodoTitleInput extends React.Component {
 
   inputBlur = e => {
     const { isNewTodo, onSave } = this.props
-    if (e.currentTarget.value.length > 0 && !isNewTodo)
+    if (!isNewTodo)
       onSave(e.target.value.trim())
   }
 

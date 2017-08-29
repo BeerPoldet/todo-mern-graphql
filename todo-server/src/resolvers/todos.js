@@ -9,4 +9,6 @@ export default class TodoResolver {
   create = ({ title, isCompleted }) => this.todoRepo.insert({ title, isCompleted })
   
   update = ({ id, title, isCompleted }) => this.todoRepo.update({ id, title, isCompleted })
+
+  delete = ({ id }) => this.todoRepo.delete(id)
 }

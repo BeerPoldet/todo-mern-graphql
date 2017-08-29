@@ -49,7 +49,7 @@ describe("Insert Todo", () => {
     expect(todos).toEqual([
       { id: '1', title: "Go farming", isCompleted: false },
       { id: '2', title: "Drink coffee", isCompleted: false }
-    ])    
+    ])
   })
 })
 
@@ -80,5 +80,45 @@ describe("todoRepo update()", () => {
     expect(updatedTodo.title).toEqual("Walk the cat")
     expect(updatedTodo.id).toEqual(newTodo.id)
     expect(updatedTodo.id).toBeDefined()
+  })
+})
+
+describe("delete todo", () => {
+  it('delete todo with id', () => {
+    const testDeleteTodoWithId = (initTodos, id, afterTodos) => {
+      const todoModel = new TodoModel(initTodos)
+      const todoRepo = new TodoRepo(todoModel)
+
+      todoRepo.delete(id)
+
+      expect(todoRepo.find()).toEqual(afterTodos)
+    }
+
+    testDeleteTodoWithId([{ id: '1', title: "HELLO" }], '1', [])
+    testDeleteTodoWithId(
+      [{ id: '1', title: "HELLO" }, { id: '2', title: "Hi" },],
+      '1',
+      [{ id: '2', title: "Hi" }]
+    )
+  })
+
+  describe('return deletion result', () => {
+    it('true when successfully', () => {
+      const todoModel = new TodoModel([{ id: '1' }])
+      const todoRepo = new TodoRepo(todoModel)
+
+      const result = todoRepo.delete('1')
+
+      expect(result).toBeTruthy()
+    })
+
+    it('false then failure', () => {
+      const todoModel = new TodoModel([{ id: '1' }])
+      const todoRepo = new TodoRepo(todoModel)
+
+      const result = todoRepo.delete('2')
+
+      expect(result).toBeFalsy()
+    })
   })
 })

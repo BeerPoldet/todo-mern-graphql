@@ -12,8 +12,11 @@ export default class Todo extends React.Component {
   }
 
   handleSave = title => {
-    const { todo, titleDidChange } = this.props
-    titleDidChange(todo.id, title)
+    const { todo, titleDidChange, todoWillDelete } = this.props
+    if (title)
+      titleDidChange(todo.id, title)
+    else
+      todoWillDelete(todo.id)
     this.setState({ isEditing: false })
   }
 
@@ -22,7 +25,7 @@ export default class Todo extends React.Component {
     let element
     if (this.state.isEditing) {
       element = (
-        <TodoTitleInput title={title} 
+        <TodoTitleInput title={title}
           onSave={this.handleSave}
           isEditing={this.state.isEditing} />
       )

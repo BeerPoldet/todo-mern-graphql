@@ -1,12 +1,7 @@
 import React from 'react'
-import Todo from './Todo'
-import { fetchTodos } from '../actions/todos'
-import * as actions from '../actions/todos'
-import TodoAPI from '../api/todo'
 import { connect } from 'react-redux'
-
-const updateTodo = actions.updateTodoCreator(fetch)
-const deleteTodo = actions.deleteTodoCreator(fetch)
+import Todo from './Todo'
+import { fetchTodos, updateTodo, deleteTodo } from '../actions/todos'
 
 class TodoList extends React.Component {
   componentDidMount() {
@@ -31,7 +26,7 @@ class TodoList extends React.Component {
       <div className="main">
         <ul className="todo-list">
           {todos.map(todo => 
-            <Todo key={todo.title} todo={todo} 
+            <Todo key={todo.id} todo={todo} 
               isCompletedDidChange={this.isCompletedDidChange}
               titleDidChange={this.titleDidChange}
               todoWillDelete={this.todoWillDelete} />

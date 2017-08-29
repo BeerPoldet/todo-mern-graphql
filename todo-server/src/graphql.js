@@ -10,6 +10,8 @@ export const schema = buildSchema(`
     createTodo(title: String!, isCompleted: Boolean): Todo
 
     updateTodo(id: ID!, title: String, isCompleted: Boolean): Todo
+
+    deleteTodo(id: ID!): Boolean
   }
 
   type Todo {
@@ -25,6 +27,7 @@ export const createRoot = (repositories) => {
   return {
     todos: todoResovler.query,
     createTodo: todoResovler.create,
-    updateTodo: todoResovler.update
+    updateTodo: todoResovler.update,
+    deleteTodo: todoResovler.delete,
   }
 }

@@ -93,14 +93,25 @@ describe("Update Todo", () => {
 })
 
 describe("Delete Todo", () => {
-  it('should delete success', () => {
-    const deleteTodo = deleteTodoCreator(createMockFetch())
+  it('should delete success', async () => {
+    const deleteTodo = deleteTodoCreator(() => true)
     const store = createMockStore()
 
-    store.dispatch(deleteTodo())
+    await store.dispatch(deleteTodo('3'))
     const actions = store.getActions()
 
     expect(actions[0]).toMatchObject({ type: types.DELETE_TODO_PENDING })
-    expect(actions[1]).toMatchObject({ type: types.DELETE_TODO_SUCCESS })
+    expect(actions[1]).toMatchObject({ type: types.DELETE_TODO_SUCCESS, id: '3' })
+  })
+
+  it('should delete fail', async () => {
+    const deleteTodo = deleteTodoCreator(() => false)
+    const store = createMockStore()
+
+    await store.dispatch(deleteTodo('3'))
+    const actions = store.getActions()
+
+    expect(actions[0]).toMatchObject({ type: types.DELETE_TODO_PENDING })
+    expect(actions[1]).toMatchObject({ type: types.DELETE_TODO_FAILURE, id: '3' })
   })
 })

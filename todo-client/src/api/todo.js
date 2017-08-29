@@ -17,7 +17,7 @@ export default class TodoAPI {
           createTodo(title: $title) { id title isCompleted } 
         }
       `,
-      variable: { title }
+      variables: { title }
     })
       .then(data => data.createTodo)
 
@@ -28,7 +28,8 @@ export default class TodoAPI {
         mutation UpdateTodo($id: ID!, $title: String, $isCompleted: Boolean) {
           updateTodo(id: $id, title: $title, isCompleted: $isCompleted) { id title isCompleted }
         }
-      `
+      `,
+      variables: { id, ...partialTodo }
     })
       .then(data => data.updateTodo)
 
@@ -37,8 +38,10 @@ export default class TodoAPI {
       operationName: "DeleteTodo",
       query: `
         mutation DeleteTodo($id: ID!) {
-          deleteTodo(id: $id) {  }
+          deleteTodo(id: $id)
         }
-      `
+      `,
+      variables: { id }
     })
+      .then(data => data.deleteTodo)
 }

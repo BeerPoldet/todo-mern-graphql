@@ -82,20 +82,20 @@ describe("update todo", () => {
 })
 
 describe("Delete todo", () => {
-  it('should delete todo from state(array)', () => {
-    const deleteTodo = deleteTodoCreator()
+  it('should delete todo from state(array)', async () => {
+    const deleteTodo = deleteTodoCreator(() => true)
     const todos = [
       { id: '1', title: "Hello", isCompleted: true },
       { id: '2', title: "World", isCompleted: false }
     ]
     const store = createMockStore(todosReducer, todos)
 
-    store.dispatch(deleteTodo('1'))
+    await store.dispatch(deleteTodo('1'))
   
     expect(store.getStates()[1]).toEqual(todos)
     expect(store.getStates()[2]).toEqual([ { id: '2', title: "World", isCompleted: false } ])
 
-    store.dispatch(deleteTodo('2'))
+    await store.dispatch(deleteTodo('2'))
 
     expect(store.getStates()[3]).toEqual([ { id: '2', title: "World", isCompleted: false } ])
     expect(store.getStates()[4]).toEqual([])

@@ -48,10 +48,15 @@ describe("update api", () => {
 })
 
 describe("delete api", () => {
-  it("delete todo", async () => {
-    const todoAPI = new TodoAPI(createMockFetch())
+  it("delete todo success", async () => {
+    const todoAPI = new TodoAPI(createMockFetch({ deleteTodo: true }))
     const result = await todoAPI.delete('1')
+    expect(result).toBeTruthy()
+  })
 
-    expect(result).toBeUndefined()
+  it("delete todo failture", async () => {
+    const todoAPI = new TodoAPI(createMockFetch({ deleteTodo: false }))
+    const result = await todoAPI.delete('1')
+    expect(result).toBeFalsy()
   })
 })

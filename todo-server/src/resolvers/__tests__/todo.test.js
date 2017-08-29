@@ -56,3 +56,15 @@ describe('updateTodoResolve()', () => {
     todoRepoSpy.restore()
   })
 })
+
+describe("Delete", () => {
+  it('should return boolean', () => {
+    const todoRepoSpy = sinon.spy(todoRepo, "delete")
+    const todoResolve = new TodoResolver(todoRepo)
+
+    todoResolve.delete({ id: 1 })
+
+    expect(todoRepoSpy.getCall(0).args).toEqual([1])
+    todoRepoSpy.restore()
+  })
+})
