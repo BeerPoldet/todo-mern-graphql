@@ -6,11 +6,12 @@
   "author": "BeerPoldet <beer@pupasoft.com>",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently \"yarn start-server\" \"cd ..\" \"yarn start-client\"",
-    "start-server": "cd todo-server & yarn start",
-    "start-client": "cd todo-client & yarn start"
+    "start": "concurrently \"yarn start-server\" \"yarn start-client\"",
+    "start-server": "npm --prefix todo-server run start ",
+    "start-client": "npm --prefix todo-client run start"
   },
   "devDependencies": {
-    "concurrently": "^3.5.0"
+    "concurrently": "^3.5.0",
+    "npm-run-all": "^4.1.1"
   }
 }
