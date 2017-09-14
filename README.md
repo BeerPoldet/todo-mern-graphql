@@ -35,7 +35,7 @@ I'm the TDDer focusing only do test first with In Boundary components. so i have
 - React components
 - Redux store
 
-Only in boundary components will have `__tests__` folder beside. and the test is aiming only the component task. for instance, Redux reducers job is to transform incoming `state` and `action` into `nextState`. then just test only its purpose.
+Only in boundary components will have `__tests__` folder beside. and the test is aiming only the component task. for instance, Redux reducers job is to transform incoming `state` and `action` into `nextState`. then just test only if the input `state` and `action` are specified then it should return expecting `nextState`.
 
 ---
 ###  Author
